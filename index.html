@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Wallet Mini App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #18181c;
+      color: #fff;
+      font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+      width: 100vw;
+      min-height: 100vh;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+    }
+    .header {
+      width: 100vw;
+      max-width: 500px;
+      margin: 0 auto;
+      background: transparent;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: env(safe-area-inset-top, 18px);
+      padding-bottom: 0;
+      box-sizing: border-box;
+    }
+    .sticker {
+      width: 100px;
+      height: 100px;
+      margin: 24px auto 10px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .balance {
+      text-align: center;
+      font-size: 2.5rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .balance-label {
+      text-align: center;
+      color: #bdbdbd;
+      font-size: 1rem;
+      margin-bottom: 28px;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+    .action-btn {
+      background: #23232a;
+      border-radius: 50%;
+      width: 62px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: background 0.2s;
+      font-size: 1.6rem;
+    }
+    .action-btn:active {
+      background: #353545;
+    }
+    .action-btn.blue {
+      background: #3b82f6;
+    }
+    .action-btn.white {
+      background: #fff;
+    }
+    .action-btn.white svg {
+      color: #23232a;
+    }
+    .action-btn svg {
+      width: 30px;
+      height: 30px;
+      color: #fff;
+      display: block;
+    }
+    .action-labels {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+    .action-label {
+      color: #bdbdbd;
+      font-size: 1rem;
+      text-align: center;
+      font-family: 'Inter', Arial, sans-serif;
+      width: 62px;
+    }
+    .transactions {
+      background: #23232a;
+      border-radius: 20px;
+      margin: 0 0 0 0;
+      padding: 18px 10px 10px 10px;
+      width: 100vw;
+      max-width: 500px;
+      box-sizing: border-box;
+    }
+    .transactions-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #bdbdbd;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+      font-family: 'Inter', Arial, sans-serif;
+      padding-left: 8px;
+    }
+    .transaction {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+    .transaction:last-child {
+      margin-bottom: 0;
+    }
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #444;
+      object-fit: cover;
+      margin-right: 8px;
+    }
+    .trans-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .trans-name {
+      font-size: 1.07rem;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'Montserrat', Arial, sans-serif;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .trans-date {
+      font-size: 0.86rem;
+      color: #bdbdbd;
+      margin-top: 2px;
+      font-family: 'Inter', Arial, sans-serif;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .trans-amount {
+      font-size: 1.07rem;
+      font-weight: 700;
+      min-width: 68px;
+      text-align: right;
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin-left: 8px;
+    }
+    .green {
+      color: #3be67a;
+    }
+    .red {
+      color: #ff3a5e;
+    }
+    @media (max-width: 500px) {
+      .header, .transactions {
+        max-width: 100vw;
+      }
+      .transactions {
+        border-radius: 18px;
+        margin: 0;
+        padding: 14px 3vw 10px 3vw;
+      }
+    }
+    @media (max-width: 400px) {
+      .header, .transactions {
+        max-width: 100vw;
+      }
+      .transactions {
+        border-radius: 14px;
+        padding: 12px 1vw 8px 1vw;
+      }
+    }
+  </style>
+  <!-- Lottie player for .tgs stickers -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+<body>
+  <div class="header">
+    <div class="sticker">
+      <!-- Telegram .tgs sticker as Lottie animation -->
+      <lottie-player
+        src="sticker.tgs"
+        background="transparent"
+        speed="1"
+        style="width: 100px; height: 100px;"
+        loop
+        autoplay
+      ></lottie-player>
+    </div>
+    <div class="balance">$568.56</div>
+    <div class="balance-label">My balance</div>
+    <div class="actions">
+      <button class="action-btn blue" title="Send">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 19V5M12 5L5 12M12 5l7 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="action-btn white" title="Receive">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 5v14M12 19l-7-7M12 19l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="action-btn" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09c0 .66.38 1.26 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09c.66 0 1.26.38 1.51 1H21a2 2 0 1 1 0 4h-.09c-.66 0-1.26.38-1.51 1z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="action-labels">
+      <div class="action-label">Send</div>
+      <div class="action-label">Receive</div>
+      <div class="action-label">Settings</div>
+    </div>
+  </div>
+  <div class="transactions">
+    <div class="transactions-title">RECENT TRANSACTIONS</div>
+    <div class="transaction">
+      <img class="avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Milana">
+      <div class="trans-info">
+        <div class="trans-name">From Milana</div>
+        <div class="trans-date">12.07 at 14:45 PM</div>
+      </div>
+      <div class="trans-amount green">$60.00</div>
+    </div>
+    <div class="transaction">
+      <img class="avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Diana">
+      <div class="trans-info">
+        <div class="trans-name">To Diana</div>
+        <div class="trans-date">11.07 at 12:07 PM</div>
+      </div>
+      <div class="trans-amount red">$20.00</div>
+    </div>
+    <div class="transaction">
+      <img class="avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alexander">
+      <div class="trans-info">
+        <div class="trans-name">From Alexander</div>
+        <div class="trans-date">11.07 at 11:00 AM</div>
+      </div>
+      <div class="trans-amount green">$120.00</div>
+    </div>
+  </div>
+  <script>
+    // Demo: show alert on action
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        alert('This is a demo action!');
+      });
+    });
+  </script>
+</body>
+</html>
